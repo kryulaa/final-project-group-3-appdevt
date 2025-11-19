@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
-import { supabase } from '../supabaseClient';
-import { resources } from './Resources';
-import { Gameloop } from './Gameloop';
-import { Input } from './Input'; 
-import { Vector2 } from './Vector2';
-import { Camera } from './Camera';
-import { Sprite } from './Sprite';
-import { Animations } from './Animations';
-import { FrameIndexPattern } from './FrameIndexPattern';
+import { supabase } from '../supabaseClient.js';
+import { resources } from './Resources.js';
+import { Gameloop } from './Gameloop.js';
+import { Input } from './Input.js'; 
+import { Vector2 } from './Vector2.js';
+import { Camera } from './Camera.js';
+import { Sprite } from './Sprite.js';
+import { Animations } from './Animations.js';
+import { FrameIndexPattern } from './FrameIndexPattern.js';
 import { 
     STAND_RIGHT, WALK_RIGHT, WALK_LEFT, STAND_LEFT, 
     CRY, DANCE, SIT, SIT_LOOP, SIT_TO_STAND 
