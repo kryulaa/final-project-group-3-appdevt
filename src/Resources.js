@@ -4,7 +4,8 @@ class Resources {
             island: '/sprites/island.png',
             water: '/sprites/water.png',
             chiikawa: '/sprites/chiikawa.png',
-                chiikawa_shadow: '/sprites/chiikawa_shadow.png',
+            chiikawa_shadow: '/sprites/chiikawa_shadow.png',
+            anoko: '/sprites/anoko.png',
         };
     
         this.images = {};
