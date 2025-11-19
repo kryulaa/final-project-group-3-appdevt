@@ -416,10 +416,30 @@ export default function Game({ session }) {
         };
 
         const updatePlayerState = (p) => {
-            const name = p.profiles?.username || 'Unknown';
+            // 1. Try to get name from payload (present in init(), missing in Realtime)
+            let name = p.profiles?.username; 
             const lastSeenTime = new Date(p.last_seen_at).getTime();
 
             if (!engine.players[p.id]) {
+                // --- NEW PLAYER JOINING ---
+                
+                // If name is missing (Realtime event), default to Unknown and fetch it
+                const finalName = name || 'Unknown';
+                
+                if (!name) {
+                    supabase
+                        .from('profiles')
+                        .select('username')
+                        .eq('id', p.id)
+                        .single()
+                        .then(({ data }) => {
+                            // Update the player's name once fetched if they are still in the engine
+                            if (data && data.username && engine.players[p.id]) {
+                                engine.players[p.id].name = data.username;
+                            }
+                        });
+                }
+
                 const newSprite = p.is_it ? createAnokoSprite() : createChiikawaSprite();
                 engine.players[p.id] = {
                     id: p.id,
@@ -428,7 +448,7 @@ export default function Game({ session }) {
                     sprite: newSprite,
                     shadow: resources.images.chiikawa_shadow, 
                     chatBubble: new ChatBubble(),
-                    name: name,
+                    name: finalName, // Set temp name immediately
                     is_it: p.is_it,
                     lobby_id: p.lobby_id || 'main',
                     status: p.status || 'alive',
@@ -444,7 +464,13 @@ export default function Game({ session }) {
                     engine.players[p.id].chatBubble.setTypingStatus(p.is_typing);
                 }
             } else {
+                // --- EXISTING PLAYER UPDATING ---
                 const player = engine.players[p.id];
+                
+                // Note: We do NOT update 'name' here. 
+                // This preserves the name we fetched earlier, preventing it from reverting to "Unknown" 
+                // during movement updates (which also lack profile data).
+
                 if (player.is_it !== p.is_it) {
                     player.sprite = p.is_it ? createAnokoSprite() : createChiikawaSprite();
                 }
