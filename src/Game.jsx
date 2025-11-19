@@ -7,7 +7,7 @@ import { Vector2 } from './Vector2';
 import { Camera } from './Camera';
 import { Sprite } from './Sprite';
 import { Animations } from './Animations';
-import { FrameIndexPattern } from './frameindexpattern';
+import { FrameIndexPattern } from './FrameIndexPattern';
 import { 
     STAND_RIGHT, WALK_RIGHT, WALK_LEFT, STAND_LEFT, 
     CRY, DANCE, SIT, SIT_LOOP, SIT_TO_STAND 
